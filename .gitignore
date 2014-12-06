@@ -1,0 +1,10 @@
+# ignore python compile files
+*.pyc
+.c9/
+
+# ignore bower components and node modules
+bower_components/
+node_modules/
+tos/static/css/lib/
+tos/static/css/fonts/
+tos/static/js/lib/
