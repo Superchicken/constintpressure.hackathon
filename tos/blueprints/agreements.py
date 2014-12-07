@@ -95,7 +95,7 @@ def agree(args):
     except:
         hash_exist = None
 
-    if not hash_exist:
+    if hash_exist is None:
         # Write to agreements with hash, POST
         try:
             result = g.firebase.post('/agreements',
@@ -124,12 +124,15 @@ def agree(args):
             policy, value = term.get('name'), term.get('value')
             terms[policy] = value
 
-        context = dict(terms=terms, service=args.get('service'))
+        context = dict(terms=terms,
+                       service=args.get('service'),
+                       activation_ID=result.get('name'))
+                       
         template = render_template('email.html', **context)
 
         # format the email
         email_subject = \
-            'Your Terms of Service Agreement From {0} - {1}'.\
+            'Your Terms of Service Agreement With {0} - {1}'.\
             format(args.get('service'),
                    datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f'))
 
@@ -152,5 +155,35 @@ def agree(args):
                         email)
         server.quit()
 
-    # email agreement
-    return jsonify({'agreement': result})
+        # email agreement
+        return jsonify(dict(success=True))
+
+    return jsonify(dict(success=False))
+
+
+@agreements.route('/<firebase_agreement_id>', methods=['PUT'])
+def put_activate(firebase_agreement_id):
+    try:
+        agreement_node = g.firebase.get('/agreements/', firebase_agreement_id)
+    except:
+        agreement_node = None
+        
+    if agreement_node is None:
+        return jsonify(dict(success=False)), 400 #400 Bad Request
+
+    email_verified = agreement_node.get('email_verified')
+    
+    if email_verified == True:
+        return jsonify(dict(success=False, error='email already verified'))
+        try:
+            put_result = \
+                g.firebase.put('/agreements/{}'.format(firebase_agreement_id),
+                                'email_verified',
+                                True,
+                                params={'print': 'pretty'},
+                                headers={'X_FANCY_HEADER': 'VERY FANCY'})
+        except:
+            return jsonify(dict(success=False,
+                                error='Failure inserting data'))
+                                
+    return jsonify(dict(success=True))

@@ -1,14 +1,11 @@
 <html>
     <head></head>
     <style type="text/css">
-        h1 { border:1px solid black }
-        p { color:red;}
-        p::first-letter { float:left; }
+        
     </style>
     <body>
-        <p>THIS IS THE EMAIL TEMPLATE</p>
         <p>Here is a list of the terms of service you have agreed to with {{ service }}</p>
-        <p>Please verify your email address by clicking this <a href="">link</a> or by copying and pasting LINK into your browser</p>
+        <p>Please verify your email address by clicking this <a href="{{ request.url }}/{{activation_ID }}/">link</a> or by copying and pasting {{ request.url  }}/{{ activation_ID }}/ into your browser.</p>
         <ul>
         {% for policy, value in terms.iteritems() %}
             <li>{{ policy }}, {{ value }}</li>
