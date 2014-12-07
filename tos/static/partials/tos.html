@@ -1,0 +1,75 @@
+<div id="tos-header" class="margined-bottom">
+    <div class="service-avatar margined-right pull-left">
+        <img ng-src="{{tos.service.service_avatar}}" />
+    </div>
+    
+    <h1 class="margined-none">{{ tos.service.name }}</h1>
+    
+    <div class="margined-top">
+        <form class="form-horizontal" role="form">
+            <div class="form-group" ng-class="{'has-error': tos.emailError}">
+                <label for="inputEmail" class="col-sm-2 control-label">
+                    Email <span class="required">*</span>
+                </label>
+                <div class="col-sm-4">
+                    <input type="email"
+                           class="form-control"
+                           id="inputEmail"
+                           placeholder="Enter an Email..."
+                           ng-model="tos.user">
+                </div>
+                <div class="col-sm-6">
+                    <i class="fa fa-lg fa-fw fa-info-circle" tooltip-placement="right" tooltip="Normally an application would forward your email, but for the purpose of this demo we need it!"></i>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<ul class="list-unstyled">
+    <li class="bordered margined-bottom" ng-repeat="term in tos.service.terms track by $index">
+        <a ng-click="toggled=!toggled" class="pointer">
+            <div class="padded-leftright padded-top" ng-class="{'padded-bottom': !toggled}">
+                <span class="pull-right margined-left">
+                    <i ng-if="toggled" class="fa fa-fw fa-lg fa-caret-down" tooltip-placement="right" tooltip="Collapse Information"></i>
+                    <i ng-if="!toggled" class="fa fa-fw fa-lg fa-caret-right" tooltip-placement="right" tooltip="Expand for More Information!"></i>
+                </span>
+                
+                <div class="term-badge text-muted fa-fw margined-right pull-left">
+                    {{ $index }}
+                </div>
+                
+                <span class="pull-right">Selected: {{ tos.policies[term.policy_name] }}</span>
+                <div>{{ term.policy_name }}</div>
+            </div>
+        </a>
+        <div class="padded-leftright padded-bottom" ng-if="toggled">
+            <hr>
+            <div class="row">
+                <div class="col-xs-6">{{ term.policy_desc }}</div>
+                <div class="col-xs-6">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <label class="control-label">Change policy option:</label>
+                        </div>
+                        <div class="col-xs-8">
+                            <select class="form-control"
+                                    ng-init="options=tos.getOptions(term);selected=options[0]"
+                                    ng-model="selected"
+                                    ng-change="tos.policies[term.policy_name]=selected.value"
+                                    ng-options="option.name for option in options">
+                            </select>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+    </li>
+</ul>
+
+<button type="button" class="btn btn-success btn-lg btn-block margined-top" ng-click="tos.submitAgreement()">
+    <h1 class="margined-none">I AGREE</h1>
+</button>

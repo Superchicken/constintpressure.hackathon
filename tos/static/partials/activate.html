@@ -1,0 +1,5 @@
+<div class="alert" ng-class="{'alert-success': activate.activate.success, 'alert-danger': !activate.activate.success}">
+    <i class="fa fa-check margined-right" ng-if="activate.activate.success"></i>
+    <i class="fa fa-times margined-right" ng-if="!activate.activate.success"></i>
+    {{ activate.activate.message }}
+</div>

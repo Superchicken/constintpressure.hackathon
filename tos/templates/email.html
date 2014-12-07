@@ -1,15 +1,19 @@
 <html>
     <head></head>
     <style type="text/css">
-        
+        ul {
+            padding-left: 0;
+            list-style: none;
+        }
     </style>
     <body>
         <p>Here is a list of the terms of service you have agreed to with {{ service }}</p>
-        <p>Please verify your email address by clicking this <a href="{{ request.url }}/{{activation_ID }}/">link</a> or by copying and pasting {{ request.url  }}/{{ activation_ID }}/ into your browser.</p>
+        <p>Please verify your email address by clicking this <a href="{{ activate_link }}">link</a> or by copying and pasting {{ activate_link }} into your browser.</p>
         <ul>
         {% for policy, value in terms.iteritems() %}
-            <li>{{ policy }}, {{ value }}</li>
+            <li>{{ policy }}: {{ value }}</li>
         {% endfor %}
         </ul>
+        <p>If you did not register for {{ service }}, please click <a href="{{ deactivate_link }}">here</a>
     </body>
 </html>

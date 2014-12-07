@@ -5,9 +5,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>TOS</title>
         <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="static/css/main.css">
-        
+
         <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,900|Montserrat:400,700" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="static/css/lib/bootstrap.min.css">
         <link rel="stylesheet" href="static/css/lib/font-awesome.min.css">
@@ -18,21 +17,34 @@
         <script src="static/js/lib/jquery.min.js"></script>
     </head>
     <body>
-        <div class="container-fluid">
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Terms of Service <i class="fa fa-plus-circle"></i></a>
+                </div>
+                <div id="navbar">
+                    <ul class="nav navbar-nav">
+                        <li ui-sref-active="active"><a ui-sref="index">Services</a></li>
+                        <li ui-sref-active="active"><a>API</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
             <div class="row">
                 <div class="col-xs-12">
                     <div ui-view></div>
                 </div>
             </div>
         </div>
-        
+
         <!-- AngularJS app -->
         <script src="static/js/app.js"></script>
         <script src="static/js/controllers.js"></script>
         <script src="static/js/directives.js"></script>
         <script src="static/js/services.js"></script>
-        <script src="static/js/factory.js"></script>
-        
+
         <!-- JS libraries -->
         <script src="static/js/lib/bootstrap.min.js"></script>
         <script src="static/js/lib/ui-bootstrap-tpls.js"></script>

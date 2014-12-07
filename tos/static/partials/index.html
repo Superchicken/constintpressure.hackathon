@@ -1,1 +1,23 @@
-<div>Hello World</div>
+<h1 class="text-center margined-none margined-bottom-lg"><small>Simple and Explicit, Terms of Service</small></h1>
+
+<ul id="service-list" class="list-unstyled">
+    <li class="bordered margined-bottom" ng-repeat="(serviceName, data)  in index.services">
+        <a class="padded" ui-sref="tos({'serviceId': serviceName})">
+            <span class="pull-right">
+                <span class="badge bg-info">
+                    {{ data.terms.length }}
+                    <ng-pluralize count="{{ data.terms.length }}"
+                                  when="{'1': 'Term',
+                                         'other': 'Terms'}">
+                    </ng-pluralize>
+                </span>
+            </span>
+            
+            <div class="service-preview margined-right pull-left">
+                <img ng-src="{{data.service_avatar}}" />
+            </div>
+            
+            <h4 class="margined-none">{{ serviceName }}</h4>
+        </a>
+    </li>
+</ul>

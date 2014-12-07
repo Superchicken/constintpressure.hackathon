@@ -23,8 +23,11 @@ def post_services(args):
       "name": NAME,
       "data": {
         "terms": [
-          {"POLICY_NAME" : [POLICY_OPTIONS, ...]},
-          ...
+          {
+            "policy_name" : POLICY_NAME,
+            "policy_desc": POLICY_DESC,
+            "policy_values": POLICY_OPTIONS
+          },
         ],
         "full_terms_url": URL
       }
