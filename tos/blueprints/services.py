@@ -1,20 +1,31 @@
 from flask import Blueprint, g, jsonify, request
+from webargs import Arg
+from webargs.flaskparser import use_args
 
 
 services = Blueprint('services', __name__)
 
 
+service_args = {
+    'data': Arg(dict),
+    'name': Arg(unicode),
+    'full_terms_url': Arg(str)
+}
+
+
 @services.route('', methods=['POST'])
-def post_services():
+@use_args(service_args)
+def post_services(args):
     """
     Sample Request data:
-    
+
     {
       "name": NAME,
       "data": {
-        "terms": {
-              "TERM" : [OPTIONS]
-        },
+        "terms": [
+          {"POLICY_NAME" : [POLICY_OPTIONS, ...]},
+          ...
+        ],
         "full_terms_url": URL
       }
     }
@@ -24,8 +35,8 @@ def post_services():
     
     try:
         result = g.firebase.put('/services',
-                                data.get('name', None),
-                                data.get('data', {}),
+                                args.get('name', None),
+                                args.get('data', {}),
                                 params={'print': 'silent'},
                                 headers={'X_FANCY_HEADER': 'VERY FANCY'})
     except:

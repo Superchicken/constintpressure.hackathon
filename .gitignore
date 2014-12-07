@@ -8,3 +8,5 @@ node_modules/
 tos/static/css/lib/
 tos/static/css/fonts/
 tos/static/js/lib/
+
+tos/settings.py

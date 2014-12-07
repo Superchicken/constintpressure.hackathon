@@ -3,8 +3,7 @@ from tos.blueprints.services import services
 from tos.blueprints.agreements import agreements
 from firebase import firebase
 
-
-FIREBASE_URL = 'https://brilliant-torch-2156.firebaseio.com'
+from tos import settings
 
 
 # app configuration
@@ -19,10 +18,10 @@ app.register_blueprint(agreements, url_prefix='/agree')
 def before_request():
     # firebase configuration
     if not hasattr(g, 'firebase'):
-        g.firebase = firebase.FirebaseApplication(FIREBASE_URL, None)
+        g.firebase = firebase.FirebaseApplication(settings.FIREBASE_URL, None)
 
 
 # index
 @app.route('/')
-def hello():
+def index():
     return render_template('base.html')
