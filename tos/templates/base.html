@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" ng-app="tosApp">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,13 +18,20 @@
         <script src="static/js/lib/jquery.min.js"></script>
     </head>
     <body>
-        hello
-        <div>
-          <label>Name:</label>
-          <input type="text" ng-model="yourName" placeholder="Enter a name here">
-          <hr>
-          <h1>Hello {{yourName}}!</h1>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div ui-view></div>
+                </div>
+            </div>
         </div>
+        
+        <!-- AngularJS app -->
+        <script src="static/js/app.js"></script>
+        <script src="static/js/controllers.js"></script>
+        <script src="static/js/directives.js"></script>
+        <script src="static/js/services.js"></script>
+        <script src="static/js/factory.js"></script>
         
         <!-- JS libraries -->
         <script src="static/js/lib/bootstrap.min.js"></script>
