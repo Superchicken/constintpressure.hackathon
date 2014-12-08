@@ -6,9 +6,11 @@ Our Solution
 ===
 We have created an API service that acts as a middleman between users and companies.
 Companies give us a list of their terms of service as well as a full legal document outlining their TOS.
-
+![Screenshot1](/images/screenshot1.png)
 When a user registers for a company's service, they are redirected to our site where we interactively handle the process. We present the terms explicitly and simply. Afterwards we hand out email receipts containing the agreement they have just made.
 
+
+![Screenshot2](/images/screenshot2.png)
 Why does this work?
 ===
 Our solution ensures users are informed, terms are presented simply. They are always in the loop, we keep them updated by sending an email if a service they are using:
