@@ -7,13 +7,15 @@
         }
     </style>
     <body>
-        <p>Here is a list of the terms of service you have agreed to with {{ service }}</p>
-        <p>Please verify your email address by clicking this <a href="{{ activate_link }}">link</a> or by copying and pasting {{ activate_link }} into your browser.</p>
+        <h2>{{ service }}</h2>
+        <p>Terms you have agreed to today:</p>
         <ul>
         {% for policy, value in terms.iteritems() %}
-            <li>{{ policy }}: {{ value }}</li>
+            <li><b>{{ policy }}</b>: {{ value }}</li>
         {% endfor %}
         </ul>
+        <br />
+        <p>Please verify your email address by clicking this <a href="{{ activate_link }}">link</a></p>
         <p>If you did not register for {{ service }}, please click <a href="{{ deactivate_link }}">here</a>
     </body>
 </html>

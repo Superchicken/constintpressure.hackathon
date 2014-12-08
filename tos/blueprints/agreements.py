@@ -143,7 +143,7 @@ def agree(args):
         email_subject = \
             'Your Terms of Service Agreement With {0} - {1}'.\
             format(args.get('service'),
-                   datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f'))
+                   datetime.now().strftime('%B %d %I:%M%p'))
 
         headers = '\r\n'.join(['from: {}'.format(settings.SMTP_USERNAME),
                                'subject: {}'.format(email_subject),

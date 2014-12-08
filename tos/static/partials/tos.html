@@ -71,6 +71,11 @@
     </li>
 </ul>
 
-<button type="button" class="btn btn-success btn-lg btn-block margined-top" ng-click="tos.submitAgreement()">
-    <h1 class="margined-none">I AGREE</h1>
+<button type="button"
+        class="btn btn-success btn-lg btn-block margined-top"
+        ng-init="agreeLoading=false"
+        ng-click="tos.submitAgreement();agreeLoading=true">
+
+    <h1 ng-if="!agreeLoading" class="margined-none">I AGREE</h1>
+    <h1 ng-if="agreeLoading" class="margined-none"><i class="fa fa-circle-o-notch fa-spin"></i></h1>
 </button>
