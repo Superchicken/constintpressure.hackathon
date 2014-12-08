@@ -44,7 +44,7 @@ tosApp.controller("TOSCtrl", ["$state", "$scope", "service", "AgreementData",
 
                 data.terms = terms;
                 AgreementData.postAgreement(data).then(function(agreement) {
-                    $state.go('index');
+                    $state.go("api", {serviceId: vm.service.name, userId: vm.user});
                 });
             } else {
                 vm.emailError = true;
@@ -67,5 +67,27 @@ tosApp.controller("ActivateCtrl", ["$scope", "activate",
     function($scope, activate) {
         var vm = this;
         vm.activate = activate;
+    }
+]);
+
+
+tosApp.controller("APICtrl", ["$scope", "AgreementData", "serviceId", "userId",
+    function($scope, AgreementData, serviceId, userId) {
+        var vm = this;
+
+        vm.serviceId = serviceId;
+        vm.userId = userId;
+        vm.validates = [];
+
+        vm.validateUser = function() {
+            if (vm.serviceId && vm.userId) {
+                AgreementData.getValidate(vm.serviceId, vm.userId).then(function(data) {
+                    var newData = data.data;
+                    newData.user = vm.userId;
+                    newData.service = vm.serviceId;
+                    vm.validates.unshift(newData);
+                });
+            }
+        };
     }
 ]);

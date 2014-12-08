@@ -7,6 +7,7 @@ import smtplib
 from email.mime.text import MIMEText
 from flask import abort, Blueprint, g, jsonify, request, render_template
 from premailer import transform
+from statsd import statsd
 from webargs import Arg
 from webargs.flaskparser import use_args
 
@@ -81,6 +82,7 @@ def agree(args):
     # Validation
     args['email_verified'] = False
     if not valid_terms(args):
+        statsd.increment('agree.validation.failure')
         return abort(400)
 
     # Check index for existence, GET
@@ -91,6 +93,7 @@ def agree(args):
 
     try:
         hash_exist = g.firebase.get('/agreements_index', hash_value)
+        statsd.increment('firebase.agreements_index.get')
     except:
         hash_exist = None
 
@@ -101,6 +104,7 @@ def agree(args):
                                      args,
                                      params={'print': 'pretty'},
                                      headers={'X_FANCY_HEADER': 'VERY FANCY'})
+            statsd.increment('firebase.agreements.post')
 
              # Write hash to index, PUT
             index_result = \
@@ -109,6 +113,7 @@ def agree(args):
                                result.get('name'),
                                params={'print': 'silent'},
                                headers={'X_FANCY_HEADER': 'VERY FANCY'})
+            statsd.increment('firebase.agreements_index.put')
                                  
         except Exception, e:
             result = None
@@ -158,6 +163,7 @@ def agree(args):
                         args.get('user'),
                         email)
         server.quit()
+        statsd.increment('agree.email.sent')
 
         # email agreement
         return jsonify(dict(success=True))
@@ -172,7 +178,9 @@ def put_activate(firebase_agreement_id):
     """
     try:
         agreement_node = g.firebase.get('/agreements/', firebase_agreement_id)
+        statsd.increment('firebase.agreements.get.')
     except:
+        statsd.increment('firebase.agreements.get.failure')
         agreement_node = None
         
     if agreement_node is None:
@@ -191,10 +199,14 @@ def put_activate(firebase_agreement_id):
                             True,
                             params={'print': 'pretty'},
                             headers={'X_FANCY_HEADER': 'VERY FANCY'})
+        statsd.increment('firebase.agreements.put')
     except:
+        statsd.increment('firebase.agreements.put.failure')
         return jsonify(dict(success=False,
                             message='Failure inserting data, sorry :\'('))
                                 
+    statsd.increment('firebase.agreements.put')
+    statsd.increment('agree.put_activate')
     return jsonify(dict(success=True,
                         message='You have successfully verified you\'re human'))
 
@@ -207,12 +219,16 @@ def get_validated(service_id, user_email):
 
     try:
         agreements = g.firebase.get('/agreements', None)
+        statsd.increment('firebase.agreements.get')
         for agreement_id, agreement_body in agreements.iteritems():
-            if agreement_body.get('user') == user_email:
+            if agreement_body.get('user') == user_email and \
+               agreement_body.get('service') == service_id:
                 terms = agreement_body.get('terms')
                 return jsonify(dict(valid=True, terms=terms))
     except:
-        return jsonify(dict(valid=False))
+        pass
+
+    return jsonify(dict(valid=False))
 
 
 @agreements.route('/notme/<firebase_agreement_id>', methods=['DELETE'])
@@ -222,11 +238,14 @@ def delete_deactive(firebase_agreement_id):
     """
 
     agreement = g.firebase.get('/agreements', firebase_agreement_id)
+    statsd.increment('firebase.agreements.get')
 
     if agreement is None:
+        statsd.increment('agree.delete_deactive.invalid_lookup')
         return jsonify(dict(success=False, message='Invalid ID'))
 
     if agreement.get('email_verified') == True:
+        statsd.increment('agree.delete_deactive.already_activated')
         return jsonify(dict(success=False, message='ID already activated'))
 
     user_service_key = '{0}:{1}'.format(agreement.get('user'),
@@ -234,6 +253,9 @@ def delete_deactive(firebase_agreement_id):
     hash_value = hashlib.sha224(user_service_key).hexdigest()
 
     g.firebase.delete('/agreements', firebase_agreement_id)
+    statsd.increment('firebase.agreements.delete')
     g.firebase.delete('/agreements_index', hash_value)
+    statsd.increment('firebase.agreements_index.delete')
 
+    statsd.increment('agree.delete_deactive.deactivate')
     return jsonify(dict(success=True, message='Successfully deactivated'))

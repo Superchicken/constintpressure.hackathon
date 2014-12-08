@@ -69,6 +69,21 @@ tosApp.config(["$stateProvider", "$urlRouterProvider",
                     });
                 }]
             }
+        })
+        .state('api', {
+            url: "/api?serviceId&userId",
+            templateUrl: "static/partials/api.html",
+            controller: "APICtrl",
+            controllerAs: "api",
+
+            resolve: {
+                serviceId: ["$stateParams", function($stateParams) {
+                    return $stateParams.serviceId
+                }],
+                userId: ["$stateParams", function($stateParams) {
+                    return $stateParams.userId
+                }]
+            }
         });
     }
 ]);

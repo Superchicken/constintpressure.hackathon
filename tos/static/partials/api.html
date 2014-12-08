@@ -1,0 +1,40 @@
+<form class="form-inlne" role="form">
+    <div class="form-group">
+        <p class="form-control-static">Enter an Email and Service:</p>
+    </div>
+    
+    <div class="form-group">
+        <label class="control-label" for="serviceInput">Service Name</label>
+        <input type="text"
+               class="form-control"
+               id="serviceInput"
+               placeholder="Enter a service name..."
+               ng-model="api.serviceId">
+    </div>
+    
+    <div class="form-group">
+        <label class="control-label" for="userInput">User Email</label>
+        <input type="text"
+               class="form-control"
+               id="userInput"
+               placeholder="Enter an email..."
+               ng-model="api.userId">
+    </div>
+    
+    <button type="submit" class="btn btn-success" ng-click="api.validateUser()">Validate</button>
+</form>
+
+<div class="margined-top">
+    <ul class="list-unstyled">
+        <li class="alert"
+            ng-class="{'alert-success': result.valid, 'alert-danger': !result.valid}"
+            ng-repeat="result in api.validates">
+            <i class="fa fa-check margined-right" ng-if="result.valid"></i>
+            <i class="fa fa-times margined-right" ng-if="!result.valid"></i>
+            
+            The User [{{result.user}}] and Service [{{result.service}}] are 
+            <span ng-if="result.valid">valid!</span>
+            <span ng-if="!result.valid">not valid.</span>
+        </li>
+    </ul>
+</div>

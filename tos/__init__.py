@@ -2,6 +2,7 @@ from flask import Flask, g, render_template
 from tos.blueprints.services import services
 from tos.blueprints.agreements import agreements
 from firebase import firebase
+from statsd import statsd
 
 from tos import settings
 
@@ -24,4 +25,5 @@ def before_request():
 # index
 @app.route('/')
 def index():
+    statsd.increment('index')
     return render_template('base.html')

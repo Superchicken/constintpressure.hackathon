@@ -11,3 +11,4 @@ python-firebase
 webargs
 premailer
 mailer
+dogstatsd-python

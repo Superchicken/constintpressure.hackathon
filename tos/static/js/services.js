@@ -30,6 +30,14 @@ tosApp.factory("AgreementData", ["$http",
                 };
                 return $http(config);
             },
+            getValidate: function(serviceId, userId) {
+                var config = {
+                    cache: true,
+                    method: "GET",
+                    url: "/agree/" + serviceId + '/' + userId
+                };
+                return $http(config);
+            },
             putActivate: function(agreementId) {
                 var config = {
                     cache: false,

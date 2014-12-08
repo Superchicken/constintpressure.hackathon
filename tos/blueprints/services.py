@@ -1,4 +1,5 @@
 from flask import Blueprint, g, jsonify, request
+from statsd import statsd
 from webargs import Arg
 from webargs.flaskparser import use_args
 
@@ -42,6 +43,7 @@ def post_services(args):
                                 args.get('data', {}),
                                 params={'print': 'silent'},
                                 headers={'X_FANCY_HEADER': 'VERY FANCY'})
+        statsd.increment('firebase.services.put')
     except:
         pass
     
@@ -54,6 +56,7 @@ def get_services():
     """
     
     result = g.firebase.get('/services', None)
+    statsd.increment('firebase.services.get')
     return jsonify(dict(services=result))
     
     
@@ -63,4 +66,5 @@ def get_service(service_id):
     """
 
     result = g.firebase.get('/services', service_id)
+    statsd.increment('firebase.services.get')
     return jsonify(dict(service=result))
