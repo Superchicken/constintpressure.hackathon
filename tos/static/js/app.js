@@ -23,8 +23,6 @@ tosApp.config(["$stateProvider", "$urlRouterProvider",
                     });
                 }]
             }
-
-            //resolve: {}
         })
         .state('tos', {
             url: "/tos/:serviceId",

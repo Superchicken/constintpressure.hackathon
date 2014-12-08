@@ -3,6 +3,9 @@ a {
     text-decoration: none !important;
 }
 
+.container {
+    width: 900px !important;
+}
 
 /* App specific */
 ul#service-list li {
