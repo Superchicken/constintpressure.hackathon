@@ -19,6 +19,7 @@ Our solution ensures users are informed, terms are presented simply. They are al
 
 Product |  Link
 ---|---:
+[![Datadog](/images/Datadog.png)](https://www.datadoghq.com/) | https://www.datadoghq.com/
 [![Python](/images/Python.png)](https://www.python.org/) | https://www.python.org/
 [![Firebase](/images/Firebase.png)](https://www.firebase.com/) | https://www.firebase.com/
 [![Flask](/images/Flask.png)](http://flask.pocoo.org/) | http://flask.pocoo.org/
